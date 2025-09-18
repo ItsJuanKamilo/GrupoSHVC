@@ -114,15 +114,37 @@ export default function Contacto() {
       return;
     }
 
-    // Simular envío
-    showSuccessAlert();
-    
-    // Limpiar formulario
-    setFormData({
-      name: "",
-      email: "",
-      message: ""
-    });
+    try {
+      // Enviar datos al endpoint del Lambda
+      const response = await fetch('https://47eh80tfbg.execute-api.us-east-1.amazonaws.com/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message
+        })
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        showSuccessAlert();
+        // Limpiar formulario
+        setFormData({
+          name: "",
+          email: "",
+          message: ""
+        });
+      } else {
+        showErrorAlert(result.message || "Error al enviar el mensaje. Inténtalo de nuevo.");
+      }
+    } catch (error) {
+      console.error('Error al enviar el mensaje:', error);
+      showErrorAlert("Error de conexión. Por favor, inténtalo de nuevo.");
+    }
   };
 
   return (

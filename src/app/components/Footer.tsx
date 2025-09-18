@@ -16,8 +16,9 @@ export default function Footer() {
               </div>
             </div>
               <p className="text-gray-300 mb-6 max-w-md mx-auto md:mx-0 text-center md:text-left">
-               Constructora líder especializada en proyectos residenciales y comerciales. 
-               Más de 15 años construyendo el futuro con excelencia y compromiso.
+               Somos una constructora con más de 17 años de experiencia, formada por profesionales 
+               que desde 2007 han trabajado juntos construyendo para otras empresas. En 2023 decidieron unirse para formar 
+               <strong> Grupo SHVC</strong> y abordar proyectos propios.
              </p>
           </div>
           <div className="text-center md:text-left">

@@ -23,7 +23,7 @@ export default function Nosotros() {
             Sobre Nosotros
           </h1>
           <p className={`text-lg sm:text-xl md:text-2xl mb-8 sm:mb-12 text-gray-200 transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ transitionDelay: '200ms' }}>
-            Más de 15 años construyendo el futuro con excelencia y compromiso
+            Más de 17 años construyendo juntos
           </p>
           
           {/* Botones integrados en el flujo */}
@@ -56,31 +56,28 @@ export default function Nosotros() {
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">Nuestra Historia</h2>
               <div className="space-y-6 text-lg text-white/90">
                 <p>
-                  Fundada en 2008, nuestra empresa nació con la visión de transformar el sector de la construcción 
-                  a través de la innovación, la calidad y el compromiso con nuestros clientes.
+                  Desde el año <strong>2007</strong>, hemos estado construyendo juntos siempre para otras constructoras. 
+                  <strong> Sebastián Hernández</strong> administrando obras y <strong>Víctor Cortez</strong> como contratista de estas obras, 
+                  desarrollando una sólida experiencia en el sector de la construcción.
                 </p>
                 <p>
-                  Comenzamos como un pequeño equipo de profesionales apasionados por la construcción, 
-                  y hoy somos una empresa líder con más de 200 proyectos completados exitosamente.
-                </p>
-                <p>
-                  Nuestro crecimiento ha sido impulsado por la confianza de nuestros clientes, 
-                  la excelencia en cada proyecto y la innovación constante en nuestros métodos de trabajo.
+                  En el año <strong>2023</strong> el destino los volvió a juntar, tomando la iniciativa de abordar proyectos en conjunto. 
+                  Hasta el día de hoy esta unión ha sido un <strong>éxito</strong>, consolidando Grupo SHVC como una empresa confiable y comprometida.
                 </p>
               </div>
               
               <div className="grid grid-cols-3 gap-6 mt-12">
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-white mb-2">200+</div>
-                  <div className="text-sm text-white/80">Proyectos Completados</div>
+                  <div className="text-3xl font-bold text-white mb-2">2007</div>
+                  <div className="text-sm text-white/80">Inicio de Trayectoria</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-white mb-2">15+</div>
+                  <div className="text-3xl font-bold text-white mb-2">2023</div>
+                  <div className="text-sm text-white/80">Formación de SHVC</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-white mb-2">17+</div>
                   <div className="text-sm text-white/80">Años de Experiencia</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-white mb-2">50+</div>
-                  <div className="text-sm text-white/80">Profesionales</div>
                 </div>
               </div>
             </div>
@@ -92,8 +89,9 @@ export default function Nosotros() {
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-4">Nuestra Misión</h3>
                 <p className="text-gray-600">
-                  Construir espacios que inspiren, innoven y perduren, 
-                  superando las expectativas de nuestros clientes en cada proyecto.
+                  Satisfacer las necesidades del cliente demostrando mejoras en el proceso constructivo, la seguridad durante todo el proceso, 
+                  la calidad de los trabajos, los plazos comprometidos, el control de costos presupuestados y las nuevas tecnologías 
+                  en la construcción de todo tipo de obras.
                 </p>
               </div>
             </div>
@@ -109,7 +107,7 @@ export default function Nosotros() {
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Nuestros Valores</h2>
             <p className="text-xl text-gray-700 max-w-3xl mx-auto">
-              Los principios que guían cada decisión y cada proyecto que emprendemos
+              Los principios que han guiado durante más de 17 años de trabajo conjunto
             </p>
           </div>
 
@@ -118,9 +116,9 @@ export default function Nosotros() {
               <div className="w-16 h-16 rounded-2xl mx-auto mb-6 flex items-center justify-center" style={{backgroundColor: '#2e74b4'}}>
                 <span className="text-2xl">⭐</span>
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Excelencia</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Experiencia</h3>
               <p className="text-gray-600">
-                Buscamos la perfección en cada detalle, desde la planificación hasta la entrega final.
+                Más de 17 años trabajando juntos, desde 2007, construyendo para otras constructoras y ahora para Grupo SHVC.
               </p>
             </div>
 
@@ -128,9 +126,9 @@ export default function Nosotros() {
               <div className="w-16 h-16 rounded-2xl mx-auto mb-6 flex items-center justify-center" style={{backgroundColor: '#1e4e78'}}>
                 <span className="text-2xl">🤝</span>
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Confianza</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Trabajo en Equipo</h3>
               <p className="text-gray-600">
-                Construimos relaciones duraderas basadas en la transparencia y el cumplimiento.
+                La unión ha sido clave para el éxito, combinando administración y ejecución.
               </p>
             </div>
 
@@ -170,8 +168,80 @@ export default function Nosotros() {
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-4">Compromiso</h3>
               <p className="text-gray-600">
-                Cumplimos con los plazos y presupuestos acordados sin excepciones.
+                Estabilidad y dedicación que han llevado a nuestros clientes a confiar en nosotros para nuevos horizontes.
               </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Objetivos Estratégicos Section */}
+      <section className="py-32 scroll-mt-20" style={{
+        background: 'linear-gradient(to bottom, #2e74b4 0%, #2e74b4 95%, rgba(46, 116, 180, 0.8) 100%)'
+      }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">Objetivos Estratégicos</h2>
+            <p className="text-xl text-white/90 max-w-3xl mx-auto">
+              Nuestras metas para el crecimiento y excelencia en la construcción
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20">
+              <div className="flex items-start space-x-4">
+                <div className="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center flex-shrink-0">
+                  <span className="text-2xl">🏗️</span>
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-3">Servicios de Alta Calidad</h3>
+                  <p className="text-white/90">
+                    Ofrecer servicios de alta calidad en proyectos de construcción, estructurales y de especialidades.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20">
+              <div className="flex items-start space-x-4">
+                <div className="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center flex-shrink-0">
+                  <span className="text-2xl">🤝</span>
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-3">Relaciones Sólidas</h3>
+                  <p className="text-white/90">
+                    Establecer relaciones sólidas con clientes y proveedores basadas en la confianza y el compromiso.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20">
+              <div className="flex items-start space-x-4">
+                <div className="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center flex-shrink-0">
+                  <span className="text-2xl">📈</span>
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-3">Expansión en Alta Complejidad</h3>
+                  <p className="text-white/90">
+                    Expandir nuestra presencia en obras de alta complejidad, demostrando nuestra capacidad técnica.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20">
+              <div className="flex items-start space-x-4">
+                <div className="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center flex-shrink-0">
+                  <span className="text-2xl">💰</span>
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-3">Rentabilidad Sostenible</h3>
+                  <p className="text-white/90">
+                    Mantener una rentabilidad sostenible que permita el crecimiento continuo de la empresa.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -185,42 +255,33 @@ export default function Nosotros() {
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Nuestro Equipo</h2>
             <p className="text-xl text-gray-700 max-w-3xl mx-auto">
-              Profesionales expertos comprometidos con la excelencia en cada proyecto
+              Los socios fundadores de Grupo SHVC, con más de 17 años de experiencia trabajando juntos
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             <div className="bg-white rounded-3xl p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
-              <div className="w-24 h-24 rounded-full mx-auto mb-6 flex items-center justify-center" style={{background: 'linear-gradient(to bottom right, #2e74b4, #1e4e78)'}}>
-                <span className="text-3xl">👨‍💼</span>
+              <div className="w-40 h-40 rounded-2xl mx-auto mb-6 flex items-center justify-center bg-gray-50 border-2 border-gray-200">
+                <img 
+                  src="https://gruposhvc.s3.dualstack.us-east-1.amazonaws.com/archivos_gruposhvc/archivos_principal/QR%20Shernandez%2079925704.jpg"
+                  alt="QR Sebastián Hernández"
+                  className="w-full h-full object-cover rounded-xl"
+                />
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Carlos Rodríguez</h3>
-              <p className="font-semibold mb-4" style={{color: '#2e74b4'}}>Director General</p>
-              <p className="text-gray-600 text-sm">
-                Más de 20 años de experiencia en gestión de proyectos de construcción.
-              </p>
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">Sebastián Hernández</h3>
+              <p className="font-semibold mb-4" style={{color: '#2e74b4'}}>Administrador de Obras / Gerente de Proyectos / Ingeniero Constructor</p>
             </div>
 
             <div className="bg-white rounded-3xl p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
-              <div className="w-24 h-24 rounded-full mx-auto mb-6 flex items-center justify-center" style={{background: 'linear-gradient(to bottom right, #9cc3e7, #2e74b4)'}}>
-                <span className="text-3xl">👩‍💼</span>
+              <div className="w-40 h-40 rounded-2xl mx-auto mb-6 flex items-center justify-center bg-gray-50 border-2 border-gray-200">
+                <img 
+                  src="https://gruposhvc.s3.dualstack.us-east-1.amazonaws.com/archivos_gruposhvc/archivos_principal/QR%20vcortez.jpeg"
+                  alt="QR Víctor Cortez"
+                  className="w-full h-full object-cover rounded-xl"
+                />
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Ana Martínez</h3>
-              <p className="font-semibold mb-4" style={{color: '#2e74b4'}}>Arquitecta Principal</p>
-              <p className="text-gray-600 text-sm">
-                Especialista en diseño sostenible y arquitectura moderna.
-              </p>
-            </div>
-
-            <div className="bg-white rounded-3xl p-8 text-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
-              <div className="w-24 h-24 rounded-full mx-auto mb-6 flex items-center justify-center" style={{background: 'linear-gradient(to bottom right, #bcd6ee, #9cc3e7)'}}>
-                <span className="text-3xl">👨‍🔧</span>
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Miguel López</h3>
-              <p className="font-semibold mb-4" style={{color: '#2e74b4'}}>Ingeniero de Proyectos</p>
-              <p className="text-gray-600 text-sm">
-                Experto en planificación y ejecución de obras complejas.
-              </p>
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">Víctor Cortez</h3>
+              <p className="font-semibold mb-4" style={{color: '#2e74b4'}}>Contratista / Gerente de Operaciones</p>
             </div>
           </div>
         </div>

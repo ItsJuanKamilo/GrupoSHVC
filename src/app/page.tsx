@@ -567,37 +567,79 @@ export default function Home() {
          background: 'linear-gradient(to bottom, #bcd6ee 0%, #bcd6ee 95%, rgba(188, 214, 238, 0.8) 100%)'
        }}>
          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                        <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Quiénes Somos</h2>
+           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">Quiénes Somos</h2>
            <p className="text-xl text-gray-700 mb-8 max-w-3xl mx-auto">
-             Somos una constructora líder con más de 15 años de experiencia, especializada en proyectos residenciales y comerciales. 
-             Hemos completado más de 200 proyectos exitosos, siempre superando las expectativas de nuestros clientes.
+             Somos una constructora con más de 17 años de experiencia, formada por profesionales 
+             que desde 2007 han trabajado juntos construyendo para otras empresas. En 2023 decidieron unirse para formar 
+             <strong> Grupo SHVC</strong> y abordar proyectos propios.
            </p>
            
            <div className="grid grid-cols-3 gap-8 mb-12">
              <div className="text-center">
-               <div className="text-3xl font-bold text-blue-600 mb-2">200+</div>
-               <div className="text-sm text-gray-600">Proyectos</div>
+               <div className="text-3xl font-bold text-blue-600 mb-2">17+</div>
+               <div className="text-sm text-gray-600">Años de experiencia</div>
              </div>
              <div className="text-center">
-               <div className="text-3xl font-bold text-blue-600 mb-2">15+</div>
-               <div className="text-sm text-gray-600">Años</div>
+               <div className="text-3xl font-bold text-blue-600 mb-2">2023</div>
+               <div className="text-sm text-gray-600">Formación de SHVC</div>
              </div>
              <div className="text-center">
-               <div className="text-3xl font-bold text-blue-600 mb-2">50+</div>
-               <div className="text-sm text-gray-600">Profesionales</div>
+               <div className="text-3xl font-bold text-blue-600 mb-2">2</div>
+               <div className="text-sm text-gray-600">Socios fundadores</div>
              </div>
            </div>
 
            <a
              href="/nosotros"
-                           className="inline-flex items-center px-8 py-4 text-white font-semibold rounded-2xl transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1 hover:scale-105"
-              style={{backgroundColor: '#1e4e78'}}
+             className="inline-flex items-center px-8 py-4 text-white font-semibold rounded-2xl transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1 hover:scale-105"
+             style={{backgroundColor: '#1e4e78'}}
            >
              Conoce más sobre nosotros
              <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
              </svg>
            </a>
+
+           {/* Regla y Refrán dentro de la misma sección */}
+           <div className="mt-10 pt-8">
+             <div className="mb-8">
+               <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+                 Mide como tu quieras en tus futuros proyectos
+               </h3>
+             </div>
+             
+             {/* Regla negra */}
+             <div className="relative max-w-2xl mx-auto">
+               <div className="w-full h-1 bg-black rounded-full"></div>
+               
+               {/* Marcas de la regla */}
+               <div className="absolute top-0 left-0 w-full h-1 flex justify-between items-center">
+                 {/* Marcas principales cada 25% */}
+                 <div className="w-0.5 h-3 bg-black"></div>
+                 <div className="w-0.5 h-3 bg-black"></div>
+                 <div className="w-0.5 h-3 bg-black"></div>
+                 <div className="w-0.5 h-3 bg-black"></div>
+                 <div className="w-0.5 h-3 bg-black"></div>
+               </div>
+               
+               {/* Marcas menores */}
+               <div className="absolute top-0 left-0 w-full h-1 flex justify-between items-center mt-1">
+                 <div className="w-0.5 h-2 bg-gray-600"></div>
+                 <div className="w-0.5 h-2 bg-gray-600"></div>
+                 <div className="w-0.5 h-2 bg-gray-600"></div>
+                 <div className="w-0.5 h-2 bg-gray-600"></div>
+                 <div className="w-0.5 h-2 bg-gray-600"></div>
+                 <div className="w-0.5 h-2 bg-gray-600"></div>
+                 <div className="w-0.5 h-2 bg-gray-600"></div>
+                 <div className="w-0.5 h-2 bg-gray-600"></div>
+                 <div className="w-0.5 h-2 bg-gray-600"></div>
+               </div>
+             </div>
+             
+             <p className="text-gray-700 mt-6 text-lg">
+               En Grupo SHVC, cada proyecto se mide con precisión, dedicación y visión de futuro
+             </p>
+           </div>
          </div>
        </section>
 
