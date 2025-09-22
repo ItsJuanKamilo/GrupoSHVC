@@ -125,6 +125,9 @@ export default function Panel() {
   const [selectedLogoUrl, setSelectedLogoUrl] = useState<string>('');
   const [editingLogoUrl, setEditingLogoUrl] = useState<string>('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [isCreatingClient, setIsCreatingClient] = useState(false);
+  const [rutValue, setRutValue] = useState('');
+  const [rutError, setRutError] = useState('');
   
   // Estados para gestión de proyectos
   const [projects, setProjects] = useState<Project[]>([]);
@@ -253,17 +256,7 @@ export default function Panel() {
   };
 
   const handleCreateClient = async (clientData: CreateClientData) => {
-    // Mostrar loading
-    Swal.fire({
-      title: 'Creando cliente...',
-      text: 'Por favor espera mientras se procesa la información',
-      allowOutsideClick: false,
-      allowEscapeKey: false,
-      showConfirmButton: false,
-      didOpen: () => {
-        Swal.showLoading();
-      }
-    });
+    setIsCreatingClient(true);
 
     try {
       const response = await fetch('https://60w42l85z2.execute-api.us-east-1.amazonaws.com/create_client', {
@@ -277,7 +270,14 @@ export default function Panel() {
       if (response.ok) {
         const result = await response.json();
         
-        // Cerrar loading y mostrar éxito
+        // Cerrar modal y limpiar formulario
+        setShowCreateModal(false);
+        setSelectedLogoUrl('');
+        setSelectedFile(null);
+        setRutValue('');
+        setRutError('');
+        
+        // Mostrar éxito
         Swal.fire({
           title: '¡Cliente creado!',
           text: result.message,
@@ -286,11 +286,13 @@ export default function Panel() {
           timer: 2000,
           timerProgressBar: true
         });
+        
+        // Recargar lista de clientes
         loadClients();
       } else {
         const errorData = await response.json();
         
-        // Cerrar loading y mostrar error
+        // Mostrar error (modal permanece abierto)
         Swal.fire({
           title: 'Error',
           text: errorData.message || 'Error al crear cliente',
@@ -301,14 +303,79 @@ export default function Panel() {
     } catch (error) {
       console.error('Error:', error);
       
-      // Cerrar loading y mostrar error
+      // Mostrar error (modal permanece abierto)
       Swal.fire({
         title: 'Error',
         text: 'Ocurrió un error inesperado al crear el cliente',
         icon: 'error',
         confirmButtonColor: '#d33'
       });
+    } finally {
+      setIsCreatingClient(false);
     }
+  };
+
+  // Funciones para formateo de RUT
+  const formatRUT = (rut: string): string => {
+    // Remover todo lo que no sea número o K
+    const cleanRUT = rut.replace(/[^0-9kK]/g, '');
+    
+    // Limitar longitud máxima (8 dígitos + 1 DV = 9 caracteres)
+    if (cleanRUT.length > 9) {
+      return rutValue; // No permitir más caracteres
+    }
+    
+    if (cleanRUT.length <= 1) return cleanRUT;
+    
+    // Separar cuerpo y dígito verificador
+    const body = cleanRUT.slice(0, -1);
+    const dv = cleanRUT.slice(-1).toUpperCase();
+    
+    // Formatear el cuerpo con puntos
+    let formattedBody = '';
+    for (let i = body.length - 1, j = 0; i >= 0; i--, j++) {
+      if (j > 0 && j % 3 === 0) {
+        formattedBody = '.' + formattedBody;
+      }
+      formattedBody = body[i] + formattedBody;
+    }
+    
+    return formattedBody + '-' + dv;
+  };
+
+  const handleRUTChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formatted = formatRUT(e.target.value);
+    setRutValue(formatted);
+    
+    // Validar RUT solo si tiene al menos 2 caracteres
+    if (formatted.length >= 2) {
+      const isValid = validateRUT(formatted);
+      setRutError(isValid ? '' : 'RUT inválido');
+    } else {
+      setRutError('');
+    }
+  };
+
+  // Función para validar RUT chileno
+  const validateRUT = (rut: string): boolean => {
+    const cleanedRUT = rut.replace(/[^0-9kK]/g, '');
+    if (cleanedRUT.length < 2) return false;
+    
+    const body = cleanedRUT.slice(0, -1);
+    const dv = cleanedRUT.slice(-1).toUpperCase();
+    
+    let sum = 0;
+    let multiplier = 2;
+    
+    for (let i = body.length - 1; i >= 0; i--) {
+      sum += parseInt(body[i]) * multiplier;
+      multiplier = multiplier === 7 ? 2 : multiplier + 1;
+    }
+    
+    const expectedDV = 11 - (sum % 11);
+    const finalDV = expectedDV === 11 ? '0' : expectedDV === 10 ? 'K' : expectedDV.toString();
+    
+    return dv === finalDV;
   };
 
   const handleUpdateClient = async (clientData: Partial<Client> & { id: number }) => {
@@ -1070,6 +1137,12 @@ export default function Panel() {
   // Función para subir archivo a S3 (logos)
   const uploadFileToS3 = async (file: File): Promise<string> => {
     try {
+      console.log('Iniciando subida de archivo:', {
+        name: file.name,
+        type: file.type,
+        size: file.size
+      });
+
       // 1. Obtener URL de subida del Lambda
       const response = await fetch('https://8qw7aj41d3.execute-api.us-east-1.amazonaws.com/get_upload_url', {
         method: 'POST',
@@ -1085,10 +1158,13 @@ export default function Panel() {
       });
 
       if (!response.ok) {
-        throw new Error('Error al obtener URL de subida');
+        const errorText = await response.text();
+        console.error('Error al obtener URL de subida:', response.status, errorText);
+        throw new Error(`Error al obtener URL de subida: ${response.status}`);
       }
 
       const { uploadUrl, key, bucketName } = await response.json();
+      console.log('URL de subida obtenida:', { uploadUrl, key, bucketName });
 
       // 2. Subir archivo directamente a S3
       const uploadResponse = await fetch(uploadUrl, {
@@ -1100,11 +1176,14 @@ export default function Panel() {
       });
 
       if (!uploadResponse.ok) {
-        throw new Error('Error al subir archivo a S3');
+        const errorText = await uploadResponse.text();
+        console.error('Error al subir archivo a S3:', uploadResponse.status, errorText);
+        throw new Error(`Error al subir archivo a S3: ${uploadResponse.status}`);
       }
 
       // 3. Construir URL final del archivo
       const finalUrl = `https://${bucketName}.s3.amazonaws.com/${key}`;
+      console.log('Archivo subido exitosamente:', finalUrl);
       
       return finalUrl;
     } catch (error) {
@@ -1172,11 +1251,14 @@ export default function Panel() {
       });
 
       if (!uploadResponse.ok) {
-        throw new Error('Error al subir archivo a S3');
+        const errorText = await uploadResponse.text();
+        console.error('Error al subir archivo a S3:', uploadResponse.status, errorText);
+        throw new Error(`Error al subir archivo a S3: ${uploadResponse.status}`);
       }
 
       // 3. Construir URL final del archivo
       const finalUrl = `https://${bucketName}.s3.amazonaws.com/${key}`;
+      console.log('Archivo subido exitosamente:', finalUrl);
       
       return finalUrl;
 
@@ -2189,20 +2271,27 @@ export default function Panel() {
                      description: formData.get('description') as string,
                      password: formData.get('password') as string,
                    };
-                   handleCreateClient(clientData);
-                   setShowCreateModal(false);
-                   setSelectedLogoUrl('');
-                   setSelectedFile(null);  // ← Limpiar archivo seleccionado
+                   await handleCreateClient(clientData);
                  }} className="space-y-4">
                    <div>
                      <label className="block text-sm font-semibold mb-2" style={{color: '#1e4e78'}}>RUT *</label>
                      <input
                        name="rut_completo"
                        type="text"
-                       className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-gray-800 placeholder-gray-500"
+                       value={rutValue}
+                       onChange={handleRUTChange}
+                       maxLength={12}
+                       className={`w-full px-4 py-3 border-2 rounded-lg focus:ring-2 transition-all duration-200 text-gray-800 placeholder-gray-500 ${
+                         rutError 
+                           ? 'border-red-500 focus:ring-red-500 focus:border-red-500' 
+                           : 'border-gray-300 focus:ring-blue-500 focus:border-blue-500'
+                       }`}
                        placeholder="Ej: 12345678-9"
                        required
                      />
+                     {rutError && (
+                       <p className="mt-1 text-sm text-red-600">{rutError}</p>
+                     )}
                    </div>
 
                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -2330,6 +2419,8 @@ export default function Panel() {
                          setShowCreateModal(false);
                          setSelectedLogoUrl('');
                          setSelectedFile(null);  // ← Limpiar archivo seleccionado
+                         setRutValue(''); // ← Limpiar RUT
+                         setRutError(''); // ← Limpiar error RUT
                        }}
                        className="px-6 py-3 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-all duration-200 cursor-pointer focus:outline-none font-medium border border-gray-300"
                      >
@@ -2337,10 +2428,21 @@ export default function Panel() {
                      </button>
                      <button
                        type="submit"
-                       className="px-6 py-3 text-white rounded-lg transition-all duration-200 cursor-pointer focus:outline-none font-medium shadow-lg hover:shadow-xl transform hover:scale-105"
+                       disabled={isCreatingClient}
+                       className="px-6 py-3 text-white rounded-lg transition-all duration-200 cursor-pointer focus:outline-none font-medium shadow-lg hover:shadow-xl transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                        style={{backgroundColor: '#2C71B8'}}
                      >
-                       Crear Cliente
+                       {isCreatingClient ? (
+                         <div className="flex items-center">
+                           <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                           </svg>
+                           Creando...
+                         </div>
+                       ) : (
+                         'Crear Cliente'
+                       )}
                      </button>
                    </div>
                  </form>

@@ -44,10 +44,24 @@ export default function FileUpload({ onFileSelected, currentUrl, category = 'log
 
   const handleFile = async (file: File) => {
     // Validar tipo de archivo
-    if (!file.type.startsWith('image/')) {
+    const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif', 'image/webp'];
+    if (!allowedTypes.includes(file.type)) {
       Swal.fire({
         title: 'Tipo de archivo no válido',
-        text: 'Por favor selecciona una imagen (PNG, JPG, JPEG)',
+        text: 'Por favor selecciona una imagen (PNG, JPG, JPEG, GIF, WebP)',
+        icon: 'error',
+        confirmButtonColor: '#d33'
+      });
+      return;
+    }
+
+    // Validar extensión del archivo
+    const allowedExtensions = ['.png', '.jpg', '.jpeg', '.gif', '.webp'];
+    const fileExtension = file.name.toLowerCase().substring(file.name.lastIndexOf('.'));
+    if (!allowedExtensions.includes(fileExtension)) {
+      Swal.fire({
+        title: 'Extensión de archivo no válida',
+        text: 'Por favor selecciona una imagen con extensión válida (PNG, JPG, JPEG, GIF, WebP)',
         icon: 'error',
         confirmButtonColor: '#d33'
       });
