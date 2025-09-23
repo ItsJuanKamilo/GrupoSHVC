@@ -270,6 +270,9 @@ export default function Panel() {
       if (response.ok) {
         const result = await response.json();
         
+        // Resetear estado inmediatamente
+        setIsCreatingClient(false);
+        
         // Cerrar modal y limpiar formulario
         setShowCreateModal(false);
         setSelectedLogoUrl('');
@@ -292,6 +295,9 @@ export default function Panel() {
       } else {
         const errorData = await response.json();
         
+        // Resetear estado inmediatamente
+        setIsCreatingClient(false);
+        
         // Mostrar error (modal permanece abierto)
         Swal.fire({
           title: 'Error',
@@ -303,6 +309,9 @@ export default function Panel() {
     } catch (error) {
       console.error('Error:', error);
       
+      // Resetear estado inmediatamente
+      setIsCreatingClient(false);
+      
       // Mostrar error (modal permanece abierto)
       Swal.fire({
         title: 'Error',
@@ -310,8 +319,6 @@ export default function Panel() {
         icon: 'error',
         confirmButtonColor: '#d33'
       });
-    } finally {
-      setIsCreatingClient(false);
     }
   };
 
@@ -1137,11 +1144,6 @@ export default function Panel() {
   // Función para subir archivo a S3 (logos)
   const uploadFileToS3 = async (file: File): Promise<string> => {
     try {
-      console.log('Iniciando subida de archivo:', {
-        name: file.name,
-        type: file.type,
-        size: file.size
-      });
 
       // 1. Obtener URL de subida del Lambda
       const response = await fetch('https://8qw7aj41d3.execute-api.us-east-1.amazonaws.com/get_upload_url', {
@@ -1164,7 +1166,6 @@ export default function Panel() {
       }
 
       const { uploadUrl, key, bucketName } = await response.json();
-      console.log('URL de subida obtenida:', { uploadUrl, key, bucketName });
 
       // 2. Subir archivo directamente a S3
       const uploadResponse = await fetch(uploadUrl, {
@@ -1183,7 +1184,6 @@ export default function Panel() {
 
       // 3. Construir URL final del archivo
       const finalUrl = `https://${bucketName}.s3.amazonaws.com/${key}`;
-      console.log('Archivo subido exitosamente:', finalUrl);
       
       return finalUrl;
     } catch (error) {
@@ -1258,7 +1258,6 @@ export default function Panel() {
 
       // 3. Construir URL final del archivo
       const finalUrl = `https://${bucketName}.s3.amazonaws.com/${key}`;
-      console.log('Archivo subido exitosamente:', finalUrl);
       
       return finalUrl;
 
@@ -2220,7 +2219,12 @@ export default function Panel() {
 
                  <form onSubmit={async (e) => {
                    e.preventDefault();
-                   const formData = new FormData(e.currentTarget);
+                   
+                   // Activar estado de carga INMEDIATAMENTE
+                   setIsCreatingClient(true);
+                   
+                   try {
+                     const formData = new FormData(e.currentTarget);
                    
                    // Separar RUT completo en número y DV
                    const rutCompleto = formData.get('rut_completo') as string;
@@ -2272,6 +2276,10 @@ export default function Panel() {
                      password: formData.get('password') as string,
                    };
                    await handleCreateClient(clientData);
+                   } catch (error) {
+                     setIsCreatingClient(false); // Resetear estado en caso de error
+                     console.error('Error en el formulario:', error);
+                   }
                  }} className="space-y-4">
                    <div>
                      <label className="block text-sm font-semibold mb-2" style={{color: '#1e4e78'}}>RUT *</label>
@@ -2344,8 +2352,11 @@ export default function Panel() {
                        <input
                          name="phone"
                          type="tel"
+                         maxLength={9}
+                         pattern="^9[0-9]{8}$"
                          className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-gray-800 placeholder-gray-500"
-                         placeholder="Ej: +56912345678"
+                         placeholder="Ej: 953776555"
+                         title="El teléfono debe empezar por 9 y tener 9 dígitos (ej: 953776555)"
                          required
                        />
                      </div>
@@ -2595,8 +2606,11 @@ export default function Panel() {
                        <input
                          name="phone"
                          type="tel"
+                         maxLength={9}
+                         pattern="^9[0-9]{8}$"
                          defaultValue={editingClient.phone}
                          className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-gray-800"
+                         title="El teléfono debe empezar por 9 y tener 9 dígitos (ej: 953776555)"
                          required
                        />
                      </div>
