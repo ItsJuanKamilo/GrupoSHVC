@@ -1,6 +1,6 @@
-Grupo SHVC - Página Web Corporativa
+Grupo SHVC
 
-Página web profesional para Grupo SHVC, una constructora especializada en proyectos residenciales y comerciales.
+Página web profesional para Grupo SHVC, Desarrollo de una aplicación web para una constructora, con funcionalidades orientadas a la gestión de proyectos y la interacción con clientes.
 
 Características
 
@@ -29,31 +29,3 @@ Stack Tecnológico
 - **Ruteo**: App Router (estructura moderna)
 - **Linting**: ESLint configurado
 - **Alias**: @/ para importaciones limpias
-
-Páginas Implementadas
-
-1. Página Principal (`/`)
-- **Header** con navegación y logo
-- **Hero Section** con llamada a la acción
-- **Sección de Servicios** con iconos y descripciones
-- **Galería de Proyectos** con estados
-- **Call-to-Action** para contacto
-- **Footer** con información de contacto
-
-2. Login (`/login`)
-- **Formulario de autenticación** con validación
-- **Estados de carga** y feedback visual
-- **Enlaces** a registro y recuperación de contraseña
-- **Diseño responsivo** y accesible
-
-3. Registro (`/registro`)
-- **Formulario completo** para nuevos clientes
-- **Campos obligatorios** y opcionales
-- **Validación en tiempo real**
-- **Confirmación de envío** exitoso
-
-4. Dashboard (`/dashboard`)
-- **Vista general** del proyecto
-- **Pestañas organizadas**: Resumen, Fotos, Pagos, Documentos
-- **Información financiera** y progreso
-- **Gestión de archivos** simulada
