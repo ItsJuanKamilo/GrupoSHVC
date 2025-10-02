@@ -39,8 +39,8 @@ export default function Footer() {
             <h4 className="text-lg font-semibold mb-4 text-white">Contacto</h4>
                          <ul className="space-y-3 text-gray-300">
                <li className="flex items-center justify-center md:justify-start">
-                 <a href="tel:+56979925704" className="hover:text-white transition-colors duration-300">
-                   +56 9 7992 5704
+                 <a href="https://wa.me/56979925704" className="hover:text-white transition-colors duration-300 flex items-center gap-2">
+                   <span>+56 9 7992 5704 (WhatsApp)</span>
                  </a>
                </li>
                                <li className="flex items-center justify-center md:justify-start">
@@ -49,7 +49,7 @@ export default function Footer() {
                   </a>
                 </li>
                 <li className="flex items-center justify-center md:justify-start">
-                  <span>Lun - Vie: 8:00 AM - 6:00 PM</span>
+                  <span>Lun - Vie: 8:00 - 18:00</span>
                 </li>
              </ul>
           </div>

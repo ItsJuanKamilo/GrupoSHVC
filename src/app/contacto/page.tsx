@@ -214,7 +214,7 @@ export default function Contacto() {
                     <span className="text-2xl">📞</span>
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-white">Teléfono</h3>
+                    <h3 className="text-lg font-semibold text-white">WhatsApp</h3>
                     <p className="text-white/80">+56 9 7992 5704</p>
                   </div>
                 </div>
@@ -235,7 +235,7 @@ export default function Contacto() {
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-white">Dirección</h3>
-                    <p className="text-white/80">J FERNANDEZ 5331 HUECHURABA</p>
+                    <p className="text-white/80">JUAN FERNÁNDEZ 5331 HUECHURABA</p>
                   </div>
                 </div>
 
@@ -245,7 +245,17 @@ export default function Contacto() {
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-white">Horarios</h3>
-                    <p className="text-white/80">Lun - Vie: 8:00 AM - 6:00 PM</p>
+                    <p className="text-white/80">Lun - Vie: 8:00 - 18:00</p>
+                  </div>
+                </div>
+
+                <div className="flex items-center space-x-4">
+                  <div className="w-12 h-12 rounded-2xl flex items-center justify-center" style={{backgroundColor: '#1e4e78'}}>
+                    <span className="text-2xl">⚡</span>
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-white">Proyectos Especiales</h3>
+                    <p className="text-white/80">Disponibilidad 24/7</p>
                   </div>
                 </div>
               </div>
