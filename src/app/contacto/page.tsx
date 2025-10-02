@@ -22,6 +22,8 @@ export default function Contacto() {
     message: ""
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -114,8 +116,10 @@ export default function Contacto() {
       return;
     }
 
+    setIsLoading(true);
+  
     try {
-      // Enviar datos al endpoint del Lambda
+      // 1. Enviar datos al endpoint del Lambda para guardar en la base de datos
       const response = await fetch('https://47eh80tfbg.execute-api.us-east-1.amazonaws.com/contact', {
         method: 'POST',
         headers: {
@@ -127,11 +131,33 @@ export default function Contacto() {
           message: formData.message
         })
       });
-
+  
       const result = await response.json();
-
-      if (response.ok) {
-        showSuccessAlert();
+  
+      if (!response.ok) {
+        setIsLoading(false);
+        showErrorAlert(result.message || "Error al enviar el mensaje. Inténtalo de nuevo.");
+        return; // Si la inserción en la base de datos falla, no enviamos el correo
+      }
+  
+      // 2. Enviar el correo utilizando el otro endpoint (solo si la base de datos fue exitosa)
+      const emailResponse = await fetch('https://ldyf9h2az4.execute-api.us-east-1.amazonaws.com/send-mail', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message
+        })
+      });
+  
+      const emailResult = await emailResponse.json();
+  
+      if (emailResponse.ok) {
+        setIsLoading(false);
+        showSuccessAlert();  // Mensaje de éxito si ambos pasos son exitosos
         // Limpiar formulario
         setFormData({
           name: "",
@@ -139,13 +165,16 @@ export default function Contacto() {
           message: ""
         });
       } else {
-        showErrorAlert(result.message || "Error al enviar el mensaje. Inténtalo de nuevo.");
+        setIsLoading(false);
+        showErrorAlert(emailResult.message || "Error al enviar el correo. Inténtalo de nuevo.");
       }
     } catch (error) {
+      setIsLoading(false);
       console.error('Error al enviar el mensaje:', error);
       showErrorAlert("Error de conexión. Por favor, inténtalo de nuevo.");
     }
   };
+  
 
   return (
     <div className="min-h-screen bg-white">
@@ -295,10 +324,22 @@ export default function Contacto() {
 
                 <button
                   type="submit"
-                  className="w-full text-white font-semibold py-4 px-8 rounded-2xl transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1 hover:scale-105 active:scale-95"
+                  disabled={isLoading}
+                  className={`w-full text-white font-semibold py-4 px-8 rounded-2xl transition-all duration-300 shadow-xl transform ${
+                    isLoading 
+                      ? 'opacity-70 cursor-not-allowed' 
+                      : 'hover:shadow-2xl hover:-translate-y-1 hover:scale-105 active:scale-95'
+                  }`}
                   style={{backgroundColor: '#1e4e78'}}
                 >
-                  Enviar mensaje
+                  {isLoading ? (
+                    <div className="flex items-center justify-center space-x-2">
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                      <span>Enviando...</span>
+                    </div>
+                  ) : (
+                    'Enviar mensaje'
+                  )}
                 </button>
               </form>
             </div>

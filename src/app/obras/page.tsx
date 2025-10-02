@@ -139,6 +139,18 @@ export default function Obras() {
     }, 100);
   };
 
+  // Función para obtener la galería completa (imagen principal + galería)
+  const getFullGallery = (obra: Obra) => {
+    const gallery = [];
+    if (obra.main_image) {
+      gallery.push(obra.main_image);
+    }
+    if (obra.gallery_images && obra.gallery_images.length > 0) {
+      gallery.push(...obra.gallery_images);
+    }
+    return gallery;
+  };
+
   const openModal = (obra: Obra) => {
     setSelectedObra(obra);
     setIsModalOpen(true);
@@ -156,33 +168,37 @@ export default function Obras() {
   };
 
   const nextImage = () => {
-    if (selectedObra && selectedObra.gallery_images) {
+    if (selectedObra) {
+      const fullGallery = getFullGallery(selectedObra);
       setCurrentImageIndex((prev) => 
-        prev === selectedObra.gallery_images.length - 1 ? 0 : prev + 1
+        prev === fullGallery.length - 1 ? 0 : prev + 1
       );
     }
   };
 
   const prevImage = () => {
-    if (selectedObra && selectedObra.gallery_images) {
+    if (selectedObra) {
+      const fullGallery = getFullGallery(selectedObra);
       setCurrentImageIndex((prev) => 
-        prev === 0 ? selectedObra.gallery_images.length - 1 : prev - 1
+        prev === 0 ? fullGallery.length - 1 : prev - 1
       );
     }
   };
 
   const nextThumbnail = () => {
-    if (selectedObra && selectedObra.gallery_images) {
+    if (selectedObra) {
+      const fullGallery = getFullGallery(selectedObra);
       setCurrentImageIndex((prev) => 
-        prev === selectedObra.gallery_images.length - 1 ? 0 : prev + 1
+        prev === fullGallery.length - 1 ? 0 : prev + 1
       );
     }
   };
 
   const prevThumbnail = () => {
-    if (selectedObra && selectedObra.gallery_images) {
+    if (selectedObra) {
+      const fullGallery = getFullGallery(selectedObra);
       setCurrentImageIndex((prev) => 
-        prev === 0 ? selectedObra.gallery_images.length - 1 : prev - 1
+        prev === 0 ? fullGallery.length - 1 : prev - 1
       );
     }
   };
@@ -704,22 +720,31 @@ export default function Obras() {
               {/* Galería */}
               <div className="p-4">
                 <div className="relative h-64 rounded-xl overflow-hidden bg-gray-100 mb-4">
-                  {selectedObra.gallery_images?.[currentImageIndex]?.includes('video') || selectedObra.gallery_images?.[currentImageIndex]?.includes('youtube') ? (
-                    <iframe
-                      src={selectedObra.gallery_images[currentImageIndex]}
-                      className="w-full h-full"
-                      title="Video de la obra"
-                      allowFullScreen
-                    />
-                  ) : (
-                    <img
-                      src={selectedObra.gallery_images?.[currentImageIndex] || selectedObra.main_image}
-                      alt={`${selectedObra.title} - Imagen ${currentImageIndex + 1}`}
-                      className="w-full h-full object-cover"
-                    />
-                  )}
+                  {(() => {
+                    const fullGallery = getFullGallery(selectedObra);
+                    const currentImage = fullGallery[currentImageIndex];
+                    
+                    if (currentImage?.includes('video') || currentImage?.includes('youtube')) {
+                      return (
+                        <iframe
+                          src={currentImage}
+                          className="w-full h-full"
+                          title="Video de la obra"
+                          allowFullScreen
+                        />
+                      );
+                    } else {
+                      return (
+                        <img
+                          src={currentImage}
+                          alt={`${selectedObra.title} - Imagen ${currentImageIndex + 1}`}
+                          className="w-full h-full object-cover"
+                        />
+                      );
+                    }
+                  })()}
                   
-                  {selectedObra.gallery_images && selectedObra.gallery_images.length > 1 && (
+                  {getFullGallery(selectedObra).length > 1 && (
                     <>
                       <button
                         onClick={prevImage}
@@ -738,17 +763,17 @@ export default function Obras() {
                         </svg>
                       </button>
                       <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 bg-black/80 text-white px-3 py-1 rounded-full text-sm">
-                        {currentImageIndex + 1} / {selectedObra.gallery_images.length}
+                        {currentImageIndex + 1} / {getFullGallery(selectedObra).length}
                       </div>
                     </>
                   )}
                 </div>
 
                 {/* Miniaturas - Carrusel horizontal */}
-                {selectedObra.gallery_images && selectedObra.gallery_images.length > 1 && (
+                {getFullGallery(selectedObra).length > 1 && (
                   <div className="relative mb-6">
                     <div ref={mobileThumbnailsRef} className="flex gap-2 overflow-x-auto scrollbar-hide">
-                      {selectedObra.gallery_images.map((image: string, index: number) => (
+                      {getFullGallery(selectedObra).map((image: string, index: number) => (
                         <button
                           key={index}
                           onClick={() => setCurrentImageIndex(index)}
@@ -868,22 +893,31 @@ export default function Obras() {
                 <div className="w-3/5 p-5 flex flex-col">
                   {/* Imagen principal con aspect ratio 16:9 */}
                   <div className="relative w-full aspect-video rounded-lg overflow-hidden bg-gray-100 mb-3">
-                    {selectedObra.gallery_images?.[currentImageIndex]?.includes('video') || selectedObra.gallery_images?.[currentImageIndex]?.includes('youtube') ? (
-                      <iframe
-                        src={selectedObra.gallery_images[currentImageIndex]}
-                        className="w-full h-full"
-                        title="Video de la obra"
-                        allowFullScreen
-                      />
-                    ) : (
-                      <img
-                        src={selectedObra.gallery_images?.[currentImageIndex] || selectedObra.main_image}
-                        alt={`${selectedObra.title} - Imagen ${currentImageIndex + 1}`}
-                        className="w-full h-full object-cover"
-                      />
-                    )}
+                    {(() => {
+                      const fullGallery = getFullGallery(selectedObra);
+                      const currentImage = fullGallery[currentImageIndex];
+                      
+                      if (currentImage?.includes('video') || currentImage?.includes('youtube')) {
+                        return (
+                          <iframe
+                            src={currentImage}
+                            className="w-full h-full"
+                            title="Video de la obra"
+                            allowFullScreen
+                          />
+                        );
+                      } else {
+                        return (
+                          <img
+                            src={currentImage}
+                            alt={`${selectedObra.title} - Imagen ${currentImageIndex + 1}`}
+                            className="w-full h-full object-cover"
+                          />
+                        );
+                      }
+                    })()}
                     
-                    {selectedObra.gallery_images && selectedObra.gallery_images.length > 1 && (
+                    {getFullGallery(selectedObra).length > 1 && (
                       <>
                         <button
                           onClick={prevImage}
@@ -902,17 +936,17 @@ export default function Obras() {
                           </svg>
                         </button>
                         <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black/80 text-white px-3 py-1.5 rounded-full text-sm font-medium">
-                          {currentImageIndex + 1} / {selectedObra.gallery_images.length}
+                          {currentImageIndex + 1} / {getFullGallery(selectedObra).length}
                         </div>
                       </>
                     )}
                   </div>
 
                   {/* Miniaturas - Carrusel horizontal */}
-                  {selectedObra.gallery_images && selectedObra.gallery_images.length > 1 && (
+                  {getFullGallery(selectedObra).length > 1 && (
                     <div className="relative mb-3">
                       <div ref={desktopThumbnailsRef} className="flex gap-2 overflow-x-auto scrollbar-hide">
-                        {selectedObra.gallery_images.map((image: string, index: number) => (
+                        {getFullGallery(selectedObra).map((image: string, index: number) => (
                           <button
                             key={index}
                             onClick={() => setCurrentImageIndex(index)}
