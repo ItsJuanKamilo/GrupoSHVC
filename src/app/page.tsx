@@ -86,6 +86,7 @@ export default function Home() {
   };
 
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [slideTimer, setSlideTimer] = useState<NodeJS.Timeout | null>(null);
 
   // Función para obtener el ícono de la categoría
   const getCategoryIcon = (category: string) => {
@@ -104,14 +105,14 @@ export default function Home() {
     {
       id: 1,
       image: "https://gruposhvc.s3.dualstack.us-east-1.amazonaws.com/archivos_gruposhvc/archivos_principal/quincho.jpeg",
-      title: "Construcción Residencial",
-      subtitle: "Casas y departamentos de alta calidad",
+      title: "Proyectos residenciales",
+      subtitle: "Tranformamos espacios... mejoramos vidas",
     },
     {
       id: 2,
       image: "https://gruposhvc.s3.dualstack.us-east-1.amazonaws.com/archivos_gruposhvc/archivos_principal/planos.png",
-      title: "Planos y Diseño",
-      subtitle: "Servicios profesionales de planos y documentación técnica",
+      title: "Proyectos de construcción",
+      subtitle: "Desarrollamos proyectos de construcción integrales, respaldados por información técnica precisa para llevar tus ideas a la realidad. Desde la arquitectura y el cálculo estructural, hasta las especialidades técnicas que requiere cada obra, ofrecemos soluciones completas para garantizar la calidad y eficiencia de tu proyecto.",
     },
     {
       id: 3,
@@ -121,19 +122,29 @@ export default function Home() {
     },
   ];
 
-  useEffect(() => {
+  const startSlideTimer = () => {
+    if (slideTimer) clearInterval(slideTimer);
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % slides.length);
-    }, 5000);
-    return () => clearInterval(timer);
+    }, 8000);
+    setSlideTimer(timer);
+  };
+
+  useEffect(() => {
+    startSlideTimer();
+    return () => {
+      if (slideTimer) clearInterval(slideTimer);
+    };
   }, [slides.length]);
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % slides.length);
+    startSlideTimer();
   };
 
   const prevSlide = () => {
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+    startSlideTimer();
   };
 
   // Nuevo carrusel de clientes
